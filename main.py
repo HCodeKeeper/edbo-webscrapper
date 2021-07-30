@@ -22,7 +22,7 @@ def OSManager():
 
 def run():
     OSManager()
-    my_scrapper = scrapper.Scrapper(chrome_driver_dir, "Іванніков М. Т.", config.tables["kpi"][8]) #be careful when putting fio data in 
+    my_scrapper = scrapper.Scrapper(chrome_driver_dir, "Іванніков М. Т.", "https://vstup.edbo.gov.ua/offer/851224/") #be careful when putting fio data in 
     actual_n = my_scrapper.execute()
 
     print(actual_n)

@@ -15,7 +15,8 @@ xpath_priority = xpath + '/div[@class="offer-request-priority"]' + '/div'
 class Scrapper():
 
     MAX_BUTTON_APPEARENCE = 5
-    MAX_LATENCY = 0.4
+    MAX_LATENCY = 1.5
+    LAST_LATENCY = 5
 
     person = {
         "fio":None,
@@ -130,7 +131,7 @@ class Scrapper():
                 if attempt != 4:
                     time.sleep(Scrapper.MAX_LATENCY)
                 else: 
-                    time.sleep(2) #Waiting for table finally load -> after the 5th button click the site loads the remains
+                    time.sleep(Scrapper.LAST_LATENCY) #Waiting for table finally load -> after the 5th button click the site loads the remains
                 print("looping")##
             except:
                 break
@@ -146,3 +147,7 @@ class Scrapper():
         actual_n = self.get_actual_n()
 
         return actual_n
+
+
+
+#+1
