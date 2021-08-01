@@ -1,3 +1,10 @@
+drivers = { #dirs
+    "Win" : "ChromeDrivers/chromedriver.exe",
+    "Mac-M1": "ChromeDrivers/chromedriver"
+}
+
+
+
 tables = {
     "kpi" : [
         "https://vstup.edbo.gov.ua/offer/818135/", #125 ФТІ

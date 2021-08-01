@@ -1,5 +1,6 @@
 def hyphen_decorator(func):
     def wrapper():
-        func()
+        result = func()
         print("-------------")
+        return result
     return wrapper
