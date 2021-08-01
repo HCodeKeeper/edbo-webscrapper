@@ -1,8 +1,10 @@
+from threading import local
 from selenium import webdriver 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.remote_connection import ChromeRemoteConnection
 import config
 import time
+import localization
 
 xpath = '//*[@id="offer-requests-body"]/div[contains(@class,"offer-request request-status-")]'
 xpath_n = xpath + '/div[@class="offer-request-n"]' + '/div'
@@ -42,6 +44,7 @@ class Scrapper():
         self.excluded_members = 0
         self.primary_website = primary_table_website
         self.included_websites = self._get_websites(self.primary_website)
+        self.result_init_data = []
 
 
     def _get_websites(self, exclude):
@@ -62,7 +65,7 @@ class Scrapper():
     def get_members_by_priority_in_primary(self, priority="К"):
         self._connect_to_website(self.primary_website)
         member_count = len(self.driver.find_elements_by_xpath(xpath))
-        print(member_count)
+        self.result_init_data.append(member_count) #total_number
         members = []
         STT = time.time()##
         parsed_fio = self.driver.find_elements_by_xpath(xpath_fio)
@@ -85,7 +88,7 @@ class Scrapper():
                     members.append(fio)
 
             
-        print(len(members))##
+        self.result_init_data.append(len(members)) #before me
         print(time.time() - STT)##
         self.members_to_compare = members
         
@@ -139,15 +142,31 @@ class Scrapper():
 
 
     def execute(self): #website -> config 
+        self.result_init_data = [] #overriding
         self.get_members_by_priority_in_primary()
         self.compare()
-        print(f"My current poisition is: {self.n}")
-        print(self.members_to_compare)
-        print(f"that many members have been excluded: {self.excluded_members}")
+        self.result_init_data.append(self.n) #unfiltered place
+        self.result_init_data.append(self.excluded_members) #legitemately excluded
         actual_n = self.get_actual_n()
+        self.result_init_data.append(actual_n) #filtered place
 
-        return actual_n
+        return ResultCluster(*self.result_init_data)
 
 
+class ResultCluster():
+    def __init__(self, total_number, to_excluide_before_me, unfiltered_pos, legit_excluded_before_me, filtered_pos):
+        self.total_number = total_number
+        self.to_exclude = to_excluide_before_me
+        self.excluded = legit_excluded_before_me
+        self.unfiltered_pos = unfiltered_pos
+        self.filtered_pos = filtered_pos
 
-#+1
+    
+    def pretty_output(self):
+        return f'''{localization.ResultCluster.RU.total_number} {self.total_number}
+        {localization.ResultCluster.RU.to_exclude} {self.to_exclude}
+        {localization.ResultCluster.RU.excluded} {self.excluded}
+        {localization.ResultCluster.RU.unfiltered_pos} {self.unfiltered_pos}
+        {localization.ResultCluster.RU.filtered_pos} {self.filtered_pos}'''
+
+#+1 погрешность
