@@ -31,3 +31,9 @@ tables = {
     ],
     "rest": ['https://vstup.edbo.gov.ua/offer/846293/', 'https://vstup.edbo.gov.ua/offer/821952/', 'https://vstup.edbo.gov.ua/offer/821021/', 'https://vstup.edbo.gov.ua/offer/818248/', 'https://vstup.edbo.gov.ua/offer/846874/', 'https://vstup.edbo.gov.ua/offer/944607/', 'https://vstup.edbo.gov.ua/offer/829681/', 'https://vstup.edbo.gov.ua/offer/827802/', 'https://vstup.edbo.gov.ua/offer/859040/', 'https://vstup.edbo.gov.ua/offer/857950/', 'https://vstup.edbo.gov.ua/offer/840901/', 'https://vstup.edbo.gov.ua/offer/849106/', 'https://vstup.edbo.gov.ua/offer/901861/', 'https://vstup.edbo.gov.ua/offer/921119/', 'https://vstup.edbo.gov.ua/offer/900437/', 'https://vstup.edbo.gov.ua/offer/859200/', 'https://vstup.edbo.gov.ua/offer/859201/', 'https://vstup.edbo.gov.ua/offer/844908/', 'https://vstup.edbo.gov.ua/offer/844909/', 'https://vstup.edbo.gov.ua/offer/849855/', 'https://vstup.edbo.gov.ua/offer/886765/', 'https://vstup.edbo.gov.ua/offer/886884/', 'https://vstup.edbo.gov.ua/offer/828750/', 'https://vstup.edbo.gov.ua/offer/833911/', 'https://vstup.edbo.gov.ua/offer/945418/', 'https://vstup.edbo.gov.ua/offer/859225/', 'https://vstup.edbo.gov.ua/offer/859218/', 'https://vstup.edbo.gov.ua/offer/854093/', 'https://vstup.edbo.gov.ua/offer/833034/', 'https://vstup.edbo.gov.ua/offer/940401/', 'https://vstup.edbo.gov.ua/offer/942120/']
 }
+
+docs_count = { # Budget, All
+    "https://vstup.edbo.gov.ua/offer/848429/" : [164, 270], #121FIOT
+    "https://vstup.edbo.gov.ua/offer/851224/" : [242, 345], #126FIOT
+    "https://vstup.edbo.gov.ua/offer/847078/" : [164, 200] #123FIOT
+}

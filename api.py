@@ -16,3 +16,10 @@ class Api:
 
     def contact_me():
         pass
+
+
+    def run_filter_by_docs(own_fio, site):
+        my_scrapper = scrapper.DocsScrapper(Api.CHROME_DRIVER_DIR, own_fio, site)
+        result_text = my_scrapper.run()
+        del my_scrapper
+        return result_text

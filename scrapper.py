@@ -1,4 +1,5 @@
 from threading import local
+import selenium
 from selenium import webdriver 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.remote_connection import ChromeRemoteConnection
@@ -134,7 +135,7 @@ class Scrapper():
                 if attempt != 4:
                     time.sleep(Scrapper.MAX_LATENCY)
                 else: 
-                    time.sleep(Scrapper.LAST_LATENCY) #Waiting for table finally load -> after the 5th button click the site loads the remains
+                    time.sleep(Scrapper.LAST_LATENCY) #Waiting for table to finally load -> after the 5th button click the site loads the remains
                 print("looping")##
             except:
                 break
@@ -169,4 +170,73 @@ class ResultCluster():
         {localization.ResultCluster.RU.unfiltered_pos} {self.unfiltered_pos}
         {localization.ResultCluster.RU.filtered_pos} {self.filtered_pos}'''
 
-#+1 погрешность
+
+class DocsScrapper: #FIOT : 121, 126, 123
+
+    def __init__(self, chrome_driver_dir, fio, primary_table_website):
+        options = Options()
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        
+        self.members = []
+        self.driver = webdriver.Chrome(chrome_driver_dir, chrome_options=options)
+        self.fio = fio
+        self.primary_website = primary_table_website
+        print("~")
+        print(primary_table_website)
+        print(list(config.docs_count.keys()))
+        if primary_table_website in list(config.docs_count.keys()):
+            print("!")
+            self.BUDGET = config.docs_count[primary_table_website][0]
+            self.ALL = config.docs_count[primary_table_website][1]
+            self.CONTRACT = self.ALL - self.BUDGET
+    
+
+    def _connect_to_website(self):
+        self.driver.get(self.primary_website)
+        for attempt in range(Scrapper.MAX_BUTTON_APPEARENCE):
+            try:
+                button = self.driver.find_element_by_id("requests-load")
+                button.click()
+                if attempt != 4:
+                    time.sleep(Scrapper.MAX_LATENCY)
+                else: 
+                    time.sleep(Scrapper.LAST_LATENCY) #Waiting for table to finally load -> after the 5th button click the site loads the remains
+                print("looping")##
+            except:
+                break
+        print("finished looping")##
+        return True
+
+
+    def getWrite_members(self):
+        self.members = self.driver.find_elements_by_xpath(xpath_fio)
+
+
+    def get_pos_xpath_index(self):
+        for i, member in enumerate(self.members):
+            if member.text == self.fio:
+                return i+1
+            
+    
+    def get_contract_before_you(self, xpath_end_index):
+        count = 0
+        for i in range(1, xpath_end_index):
+            try:
+                self.driver.find_element_by_xpath(xpath + f"[{i}]" + '/div[@class="offer-documents"]' + '/div[@class="od-1"]')
+                count += 1
+            except selenium.common.exceptions.NoSuchElementException:
+                pass
+        return count - self.BUDGET
+
+    
+    def run(self):
+        self._connect_to_website()
+        self.getWrite_members()
+        print(self.members)
+        count = self.get_contract_before_you(xpath_end_index=self.get_pos_xpath_index())
+        return self.pretty_output(count)
+    
+
+    def pretty_output(self, count):
+        return f"{localization.DocsPrettyOutput.RU.all_contracts} {self.CONTRACT}\n{localization.DocsPrettyOutput.RU.contracts_counted} {count}"
